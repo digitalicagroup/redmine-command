@@ -58,7 +58,9 @@ Commands list:
 Install [composer](http://getcomposer.org/download/) in a folder of your preference (should be accessible from your web server) then run:
 ```bash
 $ php composer.phar require digitalicagroup/redmine-command:~0.1
+$ cp vendor/digitalicagroup/redmine-command/index.php .
 ```
+The last line copies index.php from the package with the configuration you need to modify.
 
 Edit index.php and add the following configuration parameters:
 ```php
