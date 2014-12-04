@@ -1,0 +1,4 @@
+# .gitignore
+/vendor/
+/logs/
+index-dev.php
