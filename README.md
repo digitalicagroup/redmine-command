@@ -12,26 +12,27 @@ How does it work?
 * It installs as a PHP application on your web server.
 * Through a "Slash Commands" Slack integration, it receives requests.
 * It communicates with your redmine installation to gather (or update) data.
-* Posts the results to a "Incoming WebHooks" Slack integration in the originator's channel or private group (yeah, private group!).
+* Posts the results to an "Incoming WebHooks" Slack integration in the originator's channel or private group (yeah, private group!).
 
 ## Current Features
 
-The current stable release implements a extensible architecture that support easy implementation of future commands.
+The current stable release implements an extensible architecture that support easy implementation of future commands.
 Commands list:
-* show . Shows all the details in a redmine issue.
- * ussage (from slack): /redmine show issue_number
- * example: /redmine show 1
+* show . Shows all the details in a redmine issue(s).
+ * ussage (from slack): /redmine show issue_numbers
+ * example: /redmine show 1 2 10
 
 ## TODO
 
 * Move all strings variables to a global definitions file.
-* Implements more commands. The current work in progress centers around creating issues.
+* Implement more commands. The current work in progress centers around creating issues.
 
 ## Requirements
 
 * PHP >= 5.4 with cURL extension,
 * "Enable REST web service" on your redmine settings (Administration > Settings > Authentication)
  * Your "API access key" from your profile page.
+* Slack integrations (see install).
 
 ## Install
 
@@ -56,7 +57,7 @@ Commands list:
 
 Install [composer](http://getcomposer.org/download/) in a folder of your preference (should be accessible from your web server) then run:
 ```bash
-$ php composer.phar require digitalicagroup/redmine-command:~1.0
+$ php composer.phar require digitalicagroup/redmine-command:~0.1
 ```
 
 Edit index.php and add the following configuration parameters:
@@ -71,7 +72,7 @@ $config->slack_webhook = "https://hooks.slack.com/services/JLHDF/LDJF/KJHkjhdfkj
 $config->slack_api_token = "xoxp-8923479834779328749832-34234-234-234";
 
 // Your redmine URL
-$config->redmine_url = "https://you/redmine/url/";
+$config->redmine_url = "https://your/redmine/url/";
 
 // Your Redmine API access key
 $config->redmine_api_key = "0a236328687abe774";
