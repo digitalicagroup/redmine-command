@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "979cf20a76ed6af3653eb0642ab9c3a3",
+    "hash": "4a92ac82e73533dd54b7f61943697f5d",
     "packages": [
         {
             "name": "katzgrau/klogger",
