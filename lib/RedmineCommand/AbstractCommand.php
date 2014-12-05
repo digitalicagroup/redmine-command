@@ -9,7 +9,7 @@ use Psr\Log\LogLevel;
  * Abstract class to extend into other commands.
  * It stores the arguments, configuration, post parameters
  * and result.
- * 
+ *
  * @author Luis Augusto Peña Pereira <lpenap at gmail dot com>
  *        
  */
@@ -21,14 +21,14 @@ abstract class AbstractCommand {
 	
 	/**
 	 * Configuration parameters.
-	 * 
+	 *
 	 * @var RedmineCommand\Configuraton
 	 */
 	protected $config;
 	
 	/**
 	 * Logger facility.
-	 * 
+	 *
 	 * @var Katzgrau\KLogger\Logger
 	 */
 	protected $log;
@@ -38,7 +38,7 @@ abstract class AbstractCommand {
 	 * This array does not contains the word referencing
 	 * the command itself, only the strings after that
 	 * first word.
-	 * 
+	 *
 	 * @var array of strings
 	 */
 	protected $cmd;
@@ -46,21 +46,21 @@ abstract class AbstractCommand {
 	/**
 	 * Boolean to post (or not) the response to the originator's
 	 * channel or group.
-	 * 
+	 *
 	 * @var bool
 	 */
 	protected $response_to_source_channel;
 	
 	/**
 	 * Result of executing the command.
-	 * 
+	 *
 	 * @var RedmineCommand\SlackResult
 	 */
 	private $result;
 	
 	/**
 	 * Construtor.
-	 * 
+	 *
 	 * @param array $post
 	 *        	Reference to $_POST parameters.
 	 * @param RedmineCommand\Configuration $config
@@ -86,13 +86,12 @@ abstract class AbstractCommand {
 	/**
 	 * Executes this command, and returns a new SlackResult instance.
 	 * TODO move channel_id string to global config.
-	 * 
+	 *
 	 * @return \RedmineCommand\SlackResult
 	 */
 	public function execute() {
 		$this->log->debug ( "AbstractCommand (" . get_class ( $this ) . "): command array: {" . implode ( ",", $this->cmd ) . "}" );
 		$this->result = $this->executeImpl ();
-		$this->log->debug ( $this->result->toJson () );
 		
 		if ($this->response_to_source_channel) {
 			$this->log->debug ( "AbstractCommand (" . get_class ( $this ) . "): requesting channel name for channel: " . $this->post ["channel_id"] );
@@ -104,7 +103,7 @@ abstract class AbstractCommand {
 	/**
 	 * Function to set whether or not to post results to original channel or group.
 	 * If false, no response will be posted to the Incoming WebHook.
-	 * 
+	 *
 	 * @param bool $bool        	
 	 */
 	public function setResponseToSourceChannel($bool) {
@@ -117,6 +116,10 @@ abstract class AbstractCommand {
 	public function post() {
 		$json = $this->result->toJson ();
 		$this->log->debug ( "AbstractCommand (" . get_class ( $this ) . "): response json: $json" );
-		return Util::post ( $this->config->slack_webhook_url, $json );
+		$result = Util::post ( $this->config->slack_webhook_url, $json );
+		if (! $result) {
+			$log->error ( "AbstractCommand: Error sending json: $json to slack hook: " . $this->config->slack_webhook_url );
+		}
+		return $result;
 	}
 }

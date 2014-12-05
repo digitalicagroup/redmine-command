@@ -13,7 +13,7 @@ use Katzgrau\KLogger\Logger;
 class Util {
 	/**
 	 * Function to post a payload to a url using cURL.
-	 * 
+	 *
 	 * @param string $url        	
 	 * @param string $payload        	
 	 * @param string $contentType        	
@@ -30,13 +30,12 @@ class Util {
 				'Content-Length: ' . strlen ( $payload ) 
 		) );
 		$result = curl_exec ( $ch );
-		// DebugLog("curl post result: ".$result);
 		return $result;
 	}
 	
 	/**
 	 * Locates (using slack api) the channel name of a given channel id.
-	 * 
+	 *
 	 * @param \RedmineCommand\Configuration $config        	
 	 * @param string $channelId
 	 *        	slack channel id to be found.
@@ -57,6 +56,9 @@ class Util {
 		$log->debug ( "Util: going to invoke channels.info: $api_channels_info_url" . " with payload: " . http_build_query ( $payload ) );
 		
 		$result = self::post ( $api_channels_info_url, http_build_query ( $payload ), 'multipart/form-data' );
+		if (! $result) {
+			$log->error ( "Util: Error sending: " . http_build_query ( $payload ) . " to channels info service: $api_channels_info_url" );
+		}
 		$result = json_decode ( $result, true );
 		if ($result ["ok"]) {
 			// Channel found!
@@ -67,6 +69,9 @@ class Util {
 					"token" => $slack_api_token 
 			);
 			$result = self::post ( $api_groups_list_url, http_build_query ( $payload ), 'multipart/form-data' );
+			if (! $result) {
+				$log->error ( "Util: Error sending: " . http_build_query ( $payload ) . " to groups list service: $api_channels_info_url" );
+			}
 			$result = json_decode ( $result, true );
 			if ($result ["ok"]) {
 				// look for group
@@ -84,7 +89,7 @@ class Util {
 	/**
 	 * Converts an array representation of an issue (as returned by the php-redmine-api) to an
 	 * instance of SlackResultAttachment to be used in messages sent to a slack incoming webhook.
-	 * 
+	 *
 	 * @param string $redmine_issues_url        	
 	 * @param string $issue_id        	
 	 * @param array $issue        	
