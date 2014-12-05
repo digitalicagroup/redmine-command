@@ -1,14 +1,19 @@
 <?php
+
 namespace RedmineCommand;
 
-use Katzgrau\KLogger\Logger;
-
+/**
+ * Default command to be executed when the input parameters
+ * can't be assigned to any command.
+ *
+ * @author Luis Augusto Peña Pereira <lpenap at gmail dot com>
+ *        
+ */
 class CmdUnknown extends AbstractCommand {
-  protected function executeImpl () {
-    $log = new Logger ($this->config->log_dir);
-    $result = new SlackResult ();
-    $result->setText('Unknown Command');
-    $log->debug ("CmdUnknown: Executing CmdUnknown");
-    return $result;
-  }
+	protected function executeImpl() {
+		$result = new SlackResult ();
+		$result->setText ( 'Unknown Command' );
+		$this->log->debug ( "CmdUnknown: Executing CmdUnknown" );
+		return $result;
+	}
 } 

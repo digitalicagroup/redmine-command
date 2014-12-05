@@ -1,13 +1,15 @@
 {
     "name": "digitalicagroup/redmine-command",
     "description": "Redmine slack integration to manage issues",
+    "homepage": "https://github.com/digitalicagroup/redmine-command",
+    "type": "project",
     "require": {
         "php": ">=5.4",
         "ext-curl": "*",
         "katzgrau/klogger": "1.0.*",
         "kbsali/redmine-api": "~1.0"
     },
-    "license": "GPL v3",
+    "license": "GPL-3.0+",
     "authors": [
         {
             "name": "Luis Augusto Peña Pereira",

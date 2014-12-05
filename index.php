@@ -1,35 +1,65 @@
 <?php
 require_once 'vendor/autoload.php';
 
+use Psr\Log\LogLevel;
+
+/**
+ * This is the entry point for your redmine-command slack integration.
+ * It handles the configuration parameters and invokes the command
+ * factory parsing and execution of commands.
+ * This file should be placed at the same level of your "vendor" folder.
+ */
+
 $config = new RedmineCommand\Configuration();
 
-// token sent by slack (from your "Slash Commands" integration)
+/**
+ * token sent by slack (from your "Slash Commands" integration).
+ */
 $config->token =              "vuLKJlkjdsflkjLKJLKJlkjd";
 
-// url of the Incoming WebHook for this integration
+/**
+ * URL of the Incoming WebHook slack integration.
+ */ 
 $config->slack_webhook_url =  "https://hooks.slack.com/services/LKJDFKLJFD/DFDFSFDDSFDS/sdlfkjdlkfjLKJLKJKLJO";
 
-// Slack API token
+/**
+ * Slack API authentication token for your team.
+ */
 $config->slack_api_token =    "xoxp-98475983759834-38475984579843-34985793845";
 
-// Base URL of redmine installation.
+/**
+ * Base URL of redmine installation.
+ */
 $config->redmine_url =        "https://your/redmine/install";
 
-// Redmine API key
+/**
+ * Redmine API key.
+ */
 $config->redmine_api_key =    "0d089u4sldkfjfljlksdjffj43099034j";
 
-// if true, prints as many info as posible to the error_log
-// if false, prints ERRORs only
-$config->debug =              true;
+/**
+ * Log level threshold. The default is DEBUG.
+ * If you are done testing or installing in production environment,
+ * uncomment this line.
+ */
+//$config->log_level =           LogLevel::WARNING;
 
-// log folder, make sure the invoker have write permission
-$config->log_dir =            "/srv/api/redmine-command-dev/logs";
+/**
+ * logs folder, make sure the invoker have write permission.
+ */
+$config->log_dir =            "/srv/api/redmine-command/logs";
 
-// We should validate that we are being invoked by slack with the correct token
+/**
+ * This is to prevent redmine-command entry point to be called outside slack.
+ * If you want it to be called from anywhere, comment the following 3 lines:
+ */
 if (!RedmineCommand\Validator::validate($_POST, $config)) {
   die;
 } 
 
+/**
+ * Entry point execution.
+ */
 $command = RedmineCommand\CommandFactory::create($_POST, $config);
 $command->execute ();
 $command->post ();
