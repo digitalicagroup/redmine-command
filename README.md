@@ -63,27 +63,62 @@ The last line copies index.php from the package with the configuration you need 
 
 Edit index.php and add the following configuration parameters:
 ```php
-//The token from the slash commands integration.
-$config->token = "LKJdfjkJkDKJNFJ";
+/**
+ * token sent by slack (from your "Slash Commands" integration).
+ */
+$config->token =              "vuLKJlkjdsflkjLKJLKJlkjd";
 
-// the URL from the incoming webhook integration:
-$config->slack_webhook = "https://hooks.slack.com/services/JLHDF/LDJF/KJHkjhdfkjhdfd";
+/**
+ * URL of the Incoming WebHook slack integration.
+ */ 
+$config->slack_webhook_url =  "https://hooks.slack.com/services/LKJDFKLJFD/DFDFSFDDSFDS/sdlfkjdlkfjLKJLKJKLJO";
 
-// the authentication token for your team (Slack API):
-$config->slack_api_token = "xoxp-8923479834779328749832-34234-234-234";
+/**
+ * Slack API authentication token for your team.
+ */
+$config->slack_api_token =    "xoxp-98475983759834-38475984579843-34985793845";
 
-// Your redmine URL
-$config->redmine_url = "https://your/redmine/url/";
+/**
+ * Base URL of redmine installation.
+ */
+$config->redmine_url =        "https://your/redmine/install";
 
-// Your Redmine API access key
-$config->redmine_api_key = "0a236328687abe774";
+/**
+ * Redmine API key.
+ */
+$config->redmine_api_key =    "0d089u4sldkfjfljlksdjffj43099034j";
+
+/**
+ * Log level threshold. The default is DEBUG.
+ * If you are done testing or installing in production environment,
+ * uncomment this line.
+ */
+//$config->log_level =           LogLevel::WARNING;
+
+/**
+ * logs folder, make sure the invoker have write permission.
+ */
+$config->log_dir =            "/srv/api/redmine-command/logs";
 ```
 
 Make sure you give write permissions to the log_dir folder.
 
+## Troubleshooting
+
+This is a list of common errors:
+* "I see some errors about permissions in the apache error log".
+ * The process running redmine-command (usually the web server) needs write permissions to the folder configured in you $config->log_dir parameter.
+ * For example, if you are running apache, that folder group must be assigned to www-data and its write permission for groups must be turned on.
+* "I followed the steps and nothing happens, nothing in web server error log and nothing in the app log".
+ * If you see nothing in the logs (and have the debug level setted), may be the app is dying in the process of validating the slack token. redmine-command validates that the request matches with the configured token or the app dies at the very beginning.
+* "There is no error in the web server error log, I see some output in the app log (with the debug log level), but i get nothing in my channel/group".
+ * Check in the app log for the strings "[DEBUG] Util: group found!" or "[DEBUG] Util: channel found!" . If you can't see those strings, check if your slack authentication token for your team is from an user that have access to the private group you are writing from.  
+
 ## Contribute
 
 If you want to add aditional commands, your are welcome to contribute. All you need to do is extend the AbstractCommand class, and add a new entry to the CommandFactory. (You can see CmdShow.php for an example of what a command must do).
+
+The active development is done under the unstable branch. And the last stable release candidate is in the master branch.
 
 ## About Digitalica
 
