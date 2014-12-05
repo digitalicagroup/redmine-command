@@ -2,3 +2,6 @@
 /vendor/
 /logs/
 index-dev.php
+/.settings/*
+/.buildpath
+/.project
