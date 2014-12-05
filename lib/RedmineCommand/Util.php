@@ -53,7 +53,7 @@ class Util {
 				"token" => $slack_api_token,
 				"channel" => $channelId 
 		);
-		$log->debug ( "Util: going to invoke channels.info: $api_channels_info_url" . " with payload: " . http_build_query ( $payload ) );
+		$log->debug ( "Util: going to invoke channels.info: $api_channels_info_url with payload: " . http_build_query ( $payload ) );
 		
 		$result = self::post ( $api_channels_info_url, http_build_query ( $payload ), 'multipart/form-data' );
 		if (! $result) {
@@ -63,8 +63,10 @@ class Util {
 		if ($result ["ok"]) {
 			// Channel found!
 			$channel = $result ["channel"] ["name"];
+			$log->debug ( "Util: channel found!: " . $channel );
 		} else {
 			// Querying groups list service
+			$log->debug ( "Util: going to invoke groups.list: $api_groups_list_url with payload: " . http_build_query ( $payload ) );
 			$payload = array (
 					"token" => $slack_api_token 
 			);
@@ -78,6 +80,7 @@ class Util {
 				foreach ( $result ["groups"] as $group ) {
 					if (strcmp ( $group ["id"], $channelId ) == 0) {
 						$channel = $group ["name"];
+						$log->debug ( "Util: group found!: " . $channel );
 						break;
 					}
 				}
