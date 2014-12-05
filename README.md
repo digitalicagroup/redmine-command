@@ -1,7 +1,6 @@
 # Redmine Command
 
 A simple Redmine slack integration to manage issues.
-We are currently working on the install process through composer/packagist so expect the next update shortly!
 
 Uses
 * One Slack "Slash Commands" and one "Incoming WebHooks" integration (see Install).
@@ -9,7 +8,7 @@ Uses
 * [KLogger](https://github.com/katzgrau/KLogger)
 
 How does it work?
-* It installs as a PHP application on your web server.
+* It installs as a PHP application on your web server (using composer).
 * Through a "Slash Commands" Slack integration, it receives requests.
 * It communicates with your redmine installation to gather (or update) data.
 * Posts the results to an "Incoming WebHooks" Slack integration in the originator's channel or private group (yeah, private group!).
@@ -86,3 +85,8 @@ Make sure you give write permissions to the log_dir folder.
 
 If you want to add aditional commands, your are welcome to contribute. All you need to do is extend the AbstractCommand class, and add a new entry to the CommandFactory. (You can see CmdShow.php for an example of what a command must do).
 
+## About Digitalica
+
+We are a small firm focusing on mobile apps development (iOS, Android) and we are passionate about new technologies and ways that helps us work better.
+* This project homepage: [RedmineCommand](https://github.com/digitalicagroup/redmine-command)
+* Digitalica homepage: [digitalicagroup.com](http://digitalicagroup.com)
