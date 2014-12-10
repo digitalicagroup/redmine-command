@@ -22,7 +22,8 @@ class CommandFactory {
 	 * @var array an array of strings representing FQDN of command classes.
 	 */
 	protected static $classes = array (
-			"show" => "RedmineCommand\CmdShow" 
+			"show" => "RedmineCommand\CmdShow",
+			"help" => "RedmineCommand\CmdHelp"
 	);
 	public static function create($post, $config) {
 		$cmd = new CmdUnknown ( $post, $config );

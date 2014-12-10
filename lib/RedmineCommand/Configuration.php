@@ -19,6 +19,7 @@ class Configuration {
   public $log_level;
   public $default_channel;
   public $log_dir;
+  public $db_dir;
 
   public function __construct () {
     $this->token = null;
@@ -32,6 +33,7 @@ class Configuration {
     $this->log_level = LogLevel::DEBUG;
     $this->default_channel = null;
     $this->log_dir = "../../logs";
+    $this->db_dir = "../../db";
   }
 
   public function getRedmineIssuesUrl () {

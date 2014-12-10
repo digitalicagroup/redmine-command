@@ -68,6 +68,14 @@ abstract class AbstractArray {
 			$this->a [$key] [] = $obj->toArray ();
 		}
 	}
+	
+	/**
+	 * Getter method for a specific value referenced by the given key.
+	 * @param string $key
+	 */
+	public function getValue ($key) {
+		return $this->a[$key];
+	}
 }
 
 /**
@@ -148,6 +156,12 @@ class SlackResultAttachment extends AbstractArray {
  *        
  */
 class SlackResultAttachmentField extends AbstractArray {
+	function __construct2($title, $value, $isShort = true) {
+		parent::__construct ();
+		$this->a [R_TITLE] = $title;
+		$this->a [R_VALUE] = $value;
+		$this->a [R_SHORT] = $isShort;
+	}
 	public function setTitle($title) {
 		$this->a [R_TITLE] = $title;
 	}
@@ -156,5 +170,13 @@ class SlackResultAttachmentField extends AbstractArray {
 	}
 	public function setShort($isShort) {
 		$this->a [R_SHORT] = $isShort;
+	}
+	public static function compare($a, $b) {
+		$al = strtolower ( $a->getValue(R_TITLE) );
+		$bl = strtolower ( $b->getValue(R_TITLE) );
+		if ($al == $bl) {
+			return 0;
+		}
+		return ($al > $bl) ? + 1 : - 1;
 	}
 }
