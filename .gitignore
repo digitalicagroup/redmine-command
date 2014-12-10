@@ -1,6 +1,6 @@
 # .gitignore
 /vendor/
-/logs/
+/logs/*.txt
 index-dev.php
 /.settings/*
 /.buildpath
