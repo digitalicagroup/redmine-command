@@ -74,7 +74,11 @@ abstract class AbstractArray {
 	 * @param string $key
 	 */
 	public function getValue ($key) {
-		return $this->a[$key];
+    if (isset ($this->a[$key])) {
+		  return $this->a[$key];
+    } else {
+      return NULL;
+    }
 	}
 }
 
@@ -156,11 +160,12 @@ class SlackResultAttachment extends AbstractArray {
  *        
  */
 class SlackResultAttachmentField extends AbstractArray {
-	function __construct2($title, $value, $isShort = true) {
-		parent::__construct ();
-		$this->a [R_TITLE] = $title;
-		$this->a [R_VALUE] = $value;
-		$this->a [R_SHORT] = $isShort;
+	public static function withAttributes ($title, $value, $isShort = true) {
+		$instance = new self();
+    $instance->setTitle ($title);
+    $instance->setValue ($value);
+    $instance->setShort ($isShort);
+    return $instance;
 	}
 	public function setTitle($title) {
 		$this->a [R_TITLE] = $title;

@@ -12,8 +12,7 @@ class CmdHelp extends AbstractCommand {
 		$att->setFallback ("Available Commands:");
 		$fields = array();
 		
-		$fields[] = new SlackResultAttachmentField ("show", "<show> <issue numbers> Shows values for a list of issue numbers (space separated).", false);
-		$fields[] = new SlackResultAttachmentField ("aaa", "text a", false);
+		$fields[] = SlackResultAttachmentField::withAttributes ("show", "<show> <issue numbers> Shows values for a list of issue numbers (space separated).", false);
 		/**
 		 * Add new instances of SlackResultAttachmentField here
 		 * representing help texts for each command.
