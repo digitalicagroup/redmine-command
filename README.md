@@ -112,7 +112,10 @@ This is a list of common errors:
 * "I followed the steps and nothing happens, nothing in web server error log and nothing in the app log".
  * If you see nothing in the logs (and have the debug level setted), may be the app is dying in the process of validating the slack token. redmine-command validates that the request matches with the configured token or the app dies at the very beginning.
 * "There is no error in the web server error log, I see some output in the app log (with the debug log level), but i get nothing in my channel/group".
- * Check in the app log for the strings "[DEBUG] Util: group found!" or "[DEBUG] Util: channel found!" . If you can't see those strings, check if your slack authentication token for your team is from an user that have access to the private group you are writing from.  
+ * Check in the app log for the strings "[DEBUG] Util: group found!" or "[DEBUG] Util: channel found!" . If you can't see those strings, check if your slack authentication token for your team is from an user that have access to the private group you are writing from. 
+* I just developed a new command but I am getting a class not found error on CommandFactory.
+ * Every time you add a new command (hence a new class), you must update the composer autoloader. just type:
+ * php composer.phar update  
 
 ## Contribute
 
