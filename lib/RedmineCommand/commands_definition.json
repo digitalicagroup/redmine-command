@@ -2,13 +2,13 @@
 	"commands": [
 		{
 			"trigger": "show",
-			"class": "RedmineCommand\CmdShow",
+			"class": "RedmineCommand\\CmdShow",
 			"help_title": "show <number1 number2 ...>",
 			"help_text": "Shows values for a list of issue numbers (space separated)."
 		},
 		{
 			"trigger": "help",
-			"class": "RedmineCommand\CmdHelp",
+			"class": "RedmineCommand\\CmdHelp",
 			"help_title": "help",
 			"help_text": "Shows this help."
 		}
