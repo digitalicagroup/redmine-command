@@ -62,7 +62,7 @@ class CommandFactory {
 	 */
 	public static function reloadDefinitions() {
 		$result = false;
-		$json = json_decode(preg_replace('/.+?({.+}).+/','$1',utf8_encode(file_get_contents ( __DIR__."/commands_definition.json" ))), true);
+		$json = json_decode ( preg_replace ( '/.+?({.+}).+/', '$1', utf8_encode ( file_get_contents ( __DIR__ . "/commands_definition.json" ) ) ), true );
 		if ($json != null) {
 			self::$classes = array ();
 			self::$help_data = array ();
@@ -74,10 +74,9 @@ class CommandFactory {
 		}
 		return $result;
 	}
-	
 	public static function getHelpData() {
 		if (self::$help_data == null) {
-			self::reloadDefinitions();
+			self::reloadDefinitions ();
 		}
 		return self::$help_data;
 	}

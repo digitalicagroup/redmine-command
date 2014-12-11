@@ -23,9 +23,9 @@ class CmdHelp extends AbstractCommand {
 		if ($help_data == null) {
 			$log->error ( "CmdHelp: Error loading help data, check commands_definition.json format or file permissions" );
 		} else {
-      $help_keys = array_keys ($help_data);
+			$help_keys = array_keys ( $help_data );
 			foreach ( $help_keys as $key ) {
-				$fields [] = SlackResultAttachmentField::withAttributes ( $key, $help_data[$key], false );
+				$fields [] = SlackResultAttachmentField::withAttributes ( $key, $help_data [$key], false );
 			}
 		}
 		usort ( $fields, array (
