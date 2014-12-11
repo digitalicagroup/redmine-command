@@ -1,6 +1,6 @@
 {
     "name": "digitalicagroup/redmine-command",
-    "description": "Redmine slack integration to manage issues",
+    "description": "Redmine-Slack integration to manage issues",
     "homepage": "https://github.com/digitalicagroup/redmine-command",
     "type": "project",
     "require": {
