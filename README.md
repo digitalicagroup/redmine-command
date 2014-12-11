@@ -20,6 +20,8 @@ Commands list:
 * show . Shows all the details in a redmine issue(s).
  * ussage (from slack): /redmine show issue_numbers
  * example: /redmine show 1 2 10
+* help . Shows the help data from every registered command.
+ * ussage: /redmine help
 
 ## TODO
 
@@ -120,6 +122,7 @@ This is a list of common errors:
 ## Contribute
 
 If you want to add aditional commands, your are welcome to contribute. All you need to do is extend the AbstractCommand class, and add a new entry to the commands_definition.json file. (You can see CmdShow.php for an example of what a command must do).
+
 All commands are received through the same "Slash Command Integration", so the first word after the /redmine must be the command trigger. The next words are splited by one or more spaces and passed to the command that triggered.
 
 The active development is done under the unstable branch. And the last stable release candidate is in the master branch.
