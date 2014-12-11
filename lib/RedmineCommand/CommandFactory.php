@@ -28,8 +28,8 @@ class CommandFactory {
 	 */
 	public static function create($post, $config) {
 		$cmd = new CmdUnknown ( $post, $config );
-		$log->debug ( "CommandFactory: post received (json encoded): " . json_encode ( $post ) );
 		$log = new Logger ( $config->log_dir, $config->log_level );
+		$log->debug ( "CommandFactory: post received (json encoded): " . json_encode ( $post ) );
 		
 		// checking if commands definitions have been loaded
 		if (self::$classes == null || self::$help_data == null) {
@@ -62,7 +62,7 @@ class CommandFactory {
 	 */
 	public static function reloadDefinitions() {
 		$result = false;
-		$json = json_decode ( file_get_contents ( "./commands_definition.json" ), true );
+		$json = json_decode(preg_replace('/.+?({.+}).+/','$1',utf8_encode(file_get_contents ( __DIR__."/commands_definition.json" ))), true);
 		if ($json != null) {
 			self::$classes = array ();
 			self::$help_data = array ();
