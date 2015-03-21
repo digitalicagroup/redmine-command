@@ -7,7 +7,8 @@
         "php": ">=5.4",
         "ext-curl": "*",
         "katzgrau/klogger": "1.0.*",
-        "kbsali/redmine-api": "~1.0"
+        "kbsali/redmine-api": "~1.0",
+        "digitalicagroup/slack-hook-framework": "dev-unstable"
     },
     "license": "GPL-3.0+",
     "authors": [

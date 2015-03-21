@@ -1,5 +1,7 @@
 # Redmine Command
 
+Documentation not updated !, currently migrating to support [slack-hook-framework](https://github.com/digitalicagroup/slack-hook-framework) .
+
 A simple Redmine slack integration to manage issues.
 
 Uses

@@ -2,6 +2,9 @@
 require_once 'vendor/autoload.php';
 
 use Psr\Log\LogLevel;
+use RedmineCommand\Config;
+use SlackHookFramework\Validator;
+use SlackHookFramework\CommandFactory;
 
 /**
  * This is the entry point for your redmine-command slack integration.
@@ -10,7 +13,7 @@ use Psr\Log\LogLevel;
  * This file should be placed at the same level of your "vendor" folder.
  */
 
-$config = new RedmineCommand\Configuration ();
+$config = new Config ();
 
 /**
  * token sent by slack (from your "Slash Commands" integration).
@@ -57,17 +60,23 @@ $config->log_dir = "/srv/api/redmine-command/logs";
 $config->db_dir = "/srv/api/redmine-command/db";
 
 /**
+ * Custom commands definition. Use this file if you wish to add new commands to be
+ * recognized by the framework.
+ */
+$config->custom_cmds = "/srv/api/redmine-command/custom_cmds.json";
+
+/**
  * This is to prevent redmine-command entry point to be called outside slack.
  * If you want it to be called from anywhere, comment the following 3 lines:
  */
 
-if (! RedmineCommand\Validator::validate ( $_POST, $config )) {
+if (! Validator::validate ( $_POST, $config )) {
 	die ();
 }
 
 /**
  * Entry point execution.
  */
-$command = RedmineCommand\CommandFactory::create ( $_POST, $config );
+$command = CommandFactory::create ( $_POST, $config );
 $command->execute ();
 $command->post ();

@@ -3,6 +3,11 @@
 namespace RedmineCommand;
 
 use Redmine\Client;
+use SlackHookFramework\AbstractCommand;
+use SlackHookFramework\Util;
+use SlackHookFramework\SlackResult;
+use SlackHookFramework\SlackResultAttachment;
+use SlackHookFramework\SlackResultAttachmentField;
 
 /**
  * Class to handle "show" commands.
@@ -61,7 +66,7 @@ class CmdShow extends AbstractCommand {
 				}
 			} else {
 				$log->debug ( "CmdShow: #$issueId issue found!" );
-				$attachment = Util::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issueId, $issue );
+				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issueId, $issue );
 				$attachments [] = $attachment;
 			}
 		}

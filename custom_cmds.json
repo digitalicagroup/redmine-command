@@ -7,10 +7,10 @@
 			"help_text": "Shows values for a list of issue numbers (space separated)."
 		},
 		{
-			"trigger": "help",
-			"class": "RedmineCommand\\CmdHelp",
-			"help_title": "help",
-			"help_text": "Shows this help."
+			"trigger": "hello",
+			"class": "SlackHookFramework\\CmdHello",
+			"help_title": "hello",
+			"help_text": "Shows how to use the slack-hook-framework"
 		}
 	]
 }
