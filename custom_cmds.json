@@ -1,6 +1,12 @@
 {
 	"commands": [
 		{
+			"trigger": "create",
+			"class": "RedmineCommand\\CmdCreate",
+			"help_title": "...",
+			"help_text": "Creates a new issue."
+		},
+		{
 			"trigger": "show",
 			"class": "RedmineCommand\\CmdShow",
 			"help_title": "show <number1 number2 ...>",

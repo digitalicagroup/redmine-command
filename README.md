@@ -6,8 +6,7 @@ A simple Redmine slack integration to manage issues.
 
 Uses
 * One Slack "Slash Commands" and one "Incoming WebHooks" integration (see Install).
-* [php-redmine-api](https://github.com/kbsali/php-redmine-api)
-* [KLogger](https://github.com/katzgrau/KLogger)
+* [slack-hook-framework](https://github.com/digitalicagroup/slack-hook-framework)
 
 How does it work?
 * It installs as a PHP application on your web server (using composer).
@@ -17,13 +16,12 @@ How does it work?
 
 ## Current Features
 
-The current stable release implements an extensible architecture that support easy implementation of future commands.
+Redmine command, uses slack-hook-framework that supports easy implementation of additional commands.
 Commands list:
 * show . Shows all the details in a redmine issue(s).
  * ussage (from slack): /redmine show issue_numbers
  * example: /redmine show 1 2 10
-* help . Shows the help data from every registered command.
- * ussage: /redmine help
+* Other commands inherited from slack-hook-framework.
 
 ## TODO
 

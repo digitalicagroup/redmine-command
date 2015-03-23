@@ -25,8 +25,6 @@ use SlackHookFramework\SlackResultAttachmentField;
 class CmdShow extends AbstractCommand {
 	/**
 	 * Factory method to be implemented from \RedmineCommand\AbstractCommand .
-	 *
-	 *
 	 * Must return an instance of \RedmineCommand\SlackResult .
 	 *
 	 * @see \RedmineCommand\AbstractCommand::executeImpl()
