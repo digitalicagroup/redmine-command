@@ -51,7 +51,7 @@ class CmdCreate extends AbstractCommand {
 				'description' => 'long description blablabla',
 				'assigned_to' => 'luis' 
 		) );
-		
+		print_r($new_issue_id);
 		$log->debug ("result: " . $new_issue_id);
 		
 		// check if issue was created
