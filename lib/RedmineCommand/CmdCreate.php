@@ -33,49 +33,52 @@ class CmdCreate extends AbstractCommand {
 		
 		$resultText = "[requested by " . $this->post ["user_name"] . "]";
 		if (empty ( $this->cmd )) {
-			$resultText .= " Issue number required!";
+			$resultText .= " details needed!";
 		} else {
-			$resultText .= " Issue Details: ";
+			$resultText .= " New issue created: ";
 		}
-		$client->setImpersonateUser('luis');
-		$texto = $client->api('issue')->create(array(
-				'project_id'  => 'testing',
-				'subject'     => 'testing subject',
-				'description' => 'long description blablabla',
-				'assigned_to' => 'luis',
-		));
 		
-		// Fetching issues and adding them as slack attachments
 		$attachments = array ();
-		$attachment = new SlackResultAttachment ();
-		$attachment->setTitle ( "Unknown Issues:" );
-		$attachment->setText ( $texto );
-		$attachments [] = $attachment;
-// 		$attachmentUnknown = null;
-// 		foreach ( $this->cmd as $issueId ) {
-// 			$log->debug ( "CmdShow: calling Redmine api for issue id #$issueId" );
-// 			$issue = $client->api ( 'issue' )->show ( ( int ) $issueId );
-// 			$attachment = new SlackResultAttachment ();
-// 			if (! is_array ( $issue )) {
-// 				if (strcmp ( $issue, "Syntax error" ) == 0) {
-// 					if ($attachmentUnknown == null) {
-// 						$attachmentUnknown = new SlackResultAttachment ();
-// 						$attachmentUnknown->setTitle ( "Unknown Issues:" );
-// 						$attachmentUnknown->setText ( "" );
-// 					}
-// 					$log->debug ( "CmdShow: #$issueId issue unknown!" );
-// 					$attachmentUnknown->setText ( $attachmentUnknown->getText () . " $issueId" );
-// 				}
-// 			} else {
-// 				$log->debug ( "CmdShow: #$issueId issue found!" );
-// 				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issueId, $issue );
-// 				$attachments [] = $attachment;
-// 			}
-// 		}
-// 		$result->setText ( $resultText );
-// 		if ($attachmentUnknown != null) {
-// 			$attachments [] = $attachmentUnknown;
-// 		}
+		$attachment = null;
+		$attachmentError = null;
+		$attachmentUnknown == null;
+		
+		// creating issue
+		$client->setImpersonateUser ( 'luis' );
+		$issue_id = $client->api ( 'issue' )->create ( array (
+				'project_id' => 'testing',
+				'subject' => 'testing subject',
+				'description' => 'long description blablabla',
+				'assigned_to' => 'luis' 
+		) );
+		
+		// check if issue was created
+		if (strcmp ( $issue_id, "Syntax error" ) == 0) {
+			$attachmentError = new SlackResultAttachment ();
+			$attachmentError->setTitle ( "Error creating issue" );
+			$attachmentError->setText ( "See log for details..." );
+			$attachments [] = $attachmentError;
+			$log->debug ( "CmdCreate: error creating issue!" );
+		} else {
+			// Gather issue details making another call to the redmine api
+			$log->debug ( "CmdCreate: calling Redmine api for issue id #$issue_id" );
+			$issue = $client->api ( 'issue' )->show ( ( int ) $issue_id );
+			if (! is_array ( $issue )) {
+				if (strcmp ( $issue, "Syntax error" ) == 0) {
+					$attachmentUnknown = new SlackResultAttachment ();
+					$attachmentUnknown->setTitle ( "Unknown Issue:" );
+					$attachmentUnknown->setText ( $issue_id );
+					$attachments [] = $attachmentUnknown;
+					$log->debug ( "CmdShow: #$issueId issue unknown!" );
+				}
+			} else {
+				$log->debug ( "CmdShow: #$issueId issue found!" );
+				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue_id, $issue );
+				$attachments [] = $attachment;
+			}
+		}
+		$result->setText ( $resultText );
+		
 		$result->setAttachmentsArray ( $attachments );
 		return $result;
 	}
