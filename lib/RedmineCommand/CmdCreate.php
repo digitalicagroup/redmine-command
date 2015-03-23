@@ -52,6 +52,8 @@ class CmdCreate extends AbstractCommand {
 				'assigned_to' => 'luis' 
 		) );
 		
+		$log->debug ("result: " . $issue_id);
+		
 		// check if issue was created
 		if (strcmp ( $issue_id, "Syntax error" ) == 0) {
 			$attachmentError = new SlackResultAttachment ();
