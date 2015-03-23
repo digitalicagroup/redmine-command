@@ -48,8 +48,8 @@ class CmdCreate extends AbstractCommand {
 		// Fetching issues and adding them as slack attachments
 		$attachments = array ();
 		$attachment = new SlackResultAttachment ();
-		$attachmentUnknown->setTitle ( "Unknown Issues:" );
-		$attachmentUnknown->setText ( $texto );
+		$attachment->setTitle ( "Unknown Issues:" );
+		$attachment->setText ( $texto );
 		$attachments [] = $attachment;
 // 		$attachmentUnknown = null;
 // 		foreach ( $this->cmd as $issueId ) {
