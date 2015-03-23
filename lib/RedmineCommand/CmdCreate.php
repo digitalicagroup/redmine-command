@@ -45,14 +45,14 @@ class CmdCreate extends AbstractCommand {
 		
 		// creating issue
 		$client->setImpersonateUser ( 'luis' );
-		$issue_id = $client->api ( 'issue' )->create ( array (
+		$new_issue_id = $client->api ( 'issue' )->create ( array (
 				'project_id' => 'testing',
 				'subject' => 'testing subject',
 				'description' => 'long description blablabla',
 				'assigned_to' => 'luis' 
 		) );
 		
-		$log->debug ("result: " . $issue_id);
+		$log->debug ("result: " . $new_issue_id);
 		
 		// check if issue was created
 		if (strcmp ( $issue_id, "Syntax error" ) == 0) {
