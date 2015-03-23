@@ -41,7 +41,7 @@ class CmdCreate extends AbstractCommand {
 		$attachments = array ();
 		$attachment = null;
 		$attachmentError = null;
-		$attachmentUnknown == null;
+		$attachmentUnknown = null;
 		
 		// creating issue
 		$client->setImpersonateUser ( 'luis' );
