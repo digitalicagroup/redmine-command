@@ -38,9 +38,6 @@ class CmdShow extends AbstractCommand {
 		
 		$log->debug ( "CmdShow: Issues Id: " . implode ( ",", $this->cmd ) );
 		
-		// TODO delete this:
-		$log->debug ( "CmdShow: redmine_url: ". $this->config->redmine_url . " api key: ".$this->config->redmine_api_key);
-		
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
 		
 		$resultText = "[requested by " . $this->post ["user_name"] . "]";
