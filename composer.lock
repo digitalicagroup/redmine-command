@@ -4,8 +4,50 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4a92ac82e73533dd54b7f61943697f5d",
+    "hash": "32e6ace00fed27680f3b58eeb5c3d2d3",
     "packages": [
+        {
+            "name": "digitalicagroup/slack-hook-framework",
+            "version": "dev-unstable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitalicagroup/slack-hook-framework.git",
+                "reference": "557e389a4980b5617f9fcecb5bf25fc83de06c7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalicagroup/slack-hook-framework/zipball/557e389a4980b5617f9fcecb5bf25fc83de06c7a",
+                "reference": "557e389a4980b5617f9fcecb5bf25fc83de06c7a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "katzgrau/klogger": "1.0.*",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SlackHookFramework\\": "lib/"
+                },
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Luis Augusto Peña Pereira",
+                    "email": "luis@digitalicagroup.com"
+                }
+            ],
+            "description": "Framework to easily create your own command processor for Slack",
+            "homepage": "https://github.com/digitalicagroup/slack-hook-framework",
+            "time": "2015-03-23 15:12:31"
+        },
         {
             "name": "katzgrau/klogger",
             "version": "1.0.0",
@@ -60,16 +102,16 @@
         },
         {
             "name": "kbsali/redmine-api",
-            "version": "v1.5.1",
+            "version": "v1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kbsali/php-redmine-api.git",
-                "reference": "9c4a3b6948a67b40a3129a66940ea93e75208053"
+                "reference": "c8cc794ee03c1d179b29bdb22e0d946b307c7139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kbsali/php-redmine-api/zipball/9c4a3b6948a67b40a3129a66940ea93e75208053",
-                "reference": "9c4a3b6948a67b40a3129a66940ea93e75208053",
+                "url": "https://api.github.com/repos/kbsali/php-redmine-api/zipball/c8cc794ee03c1d179b29bdb22e0d946b307c7139",
+                "reference": "c8cc794ee03c1d179b29bdb22e0d946b307c7139",
                 "shasum": ""
             },
             "require": {
@@ -102,7 +144,7 @@
                 "api",
                 "redmine"
             ],
-            "time": "2014-11-05 08:24:30"
+            "time": "2015-03-05 08:47:56"
         },
         {
             "name": "psr/log",
@@ -146,8 +188,11 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "digitalicagroup/slack-hook-framework": 20
+    },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.4",
         "ext-curl": "*"

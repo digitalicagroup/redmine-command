@@ -3,6 +3,7 @@
 namespace RedmineCommand;
 
 use Katzgrau\KLogger\Logger;
+use Redmine\Api\SimpleXMLElement;
 use SlackHookFramework\Util;
 use SlackHookFramework\SlackResult;
 use SlackHookFramework\SlackResultAttachment;
@@ -20,14 +21,23 @@ class Utils {
 	 * instance of SlackResultAttachment to be used in messages sent to a slack incoming webhook.
 	 *
 	 * @param string $redmine_issues_url        	
-	 * @param string $issue_id        	
 	 * @param array $issue        	
 	 * @return \SlackHookFramework\SlackResultAttachment
 	 * @see \SlackHookFramework\SlackResultAttachment
 	 * @link https://github.com/kbsali/php-redmine-api
 	 * @link https://github.com/digitalicagroup/slack-hook-framework
 	 */
-	public static function convertIssueToAttachment($redmine_issues_url, $issue_id, $issue) {
+	public static function convertIssueToAttachment($redmine_issues_url, $issue) {
+		// checking $issue format
+		// some php-redmine-api methods returns an array of the form
+		// $issue['issue'] and other ones returns an instance of SimpleXMLElement
+		if ($issue instanceof SimpleXMLElement) {
+			// convert issue to array with an 'issue' child
+			$issue = array (
+					'issue' => ( array ) $issue 
+			);
+		}
+		$issue_id = $issue ['issue'] ['id'];
 		$attachment = new SlackResultAttachment ();
 		$attachment->setTitle ( "#" . $issue_id . " " . $issue ['issue'] ['subject'] );
 		$attTitle = "[<" . $redmine_issues_url . $issue_id . "|" . $issue ['issue'] ['tracker'] ['name'] . " #" . $issue_id . ">]";
@@ -62,5 +72,4 @@ class Utils {
 		$attachment->setFieldsArray ( $fields );
 		return $attachment;
 	}
-
 }

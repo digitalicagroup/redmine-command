@@ -5,3 +5,5 @@ index-dev.php
 /.settings/*
 /.buildpath
 /.project
+/test.php
+/composer.phar

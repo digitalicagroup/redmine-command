@@ -3,6 +3,7 @@
 namespace RedmineCommand;
 
 use Redmine\Client;
+use Redmine\Api\SimpleXMLElement;
 use SlackHookFramework\AbstractCommand;
 use SlackHookFramework\Util;
 use SlackHookFramework\SlackResult;
@@ -41,44 +42,27 @@ class CmdCreate extends AbstractCommand {
 		$attachments = array ();
 		$attachment = null;
 		$attachmentError = null;
-		$attachmentUnknown = null;
 		
 		// creating issue
 		$client->setImpersonateUser ( 'luis' );
-		$new_issue_id = $client->api ( 'issue' )->create ( array (
+		$issue = $client->api ( 'issue' )->create ( array (
 				'project_id' => 'testing',
 				'subject' => 'testing subject',
 				'description' => 'long description blablabla',
 				'assigned_to' => 'luis' 
 		) );
-		print_r($new_issue_id);
-		$log->debug ("result: " . $new_issue_id);
 		
-		// check if issue was created
-		if (strcmp ( $issue_id, "Syntax error" ) == 0) {
+		if (! $issue instanceof SimpleXMLElement) {
 			$attachmentError = new SlackResultAttachment ();
 			$attachmentError->setTitle ( "Error creating issue" );
 			$attachmentError->setText ( "See log for details..." );
 			$attachments [] = $attachmentError;
 			$log->debug ( "CmdCreate: error creating issue!" );
 		} else {
-			// Gather issue details making another call to the redmine api
-			$log->debug ( "CmdCreate: calling Redmine api for issue id #$issue_id" );
-			$issue = $client->api ( 'issue' )->show ( ( int ) $issue_id );
-			if (! is_array ( $issue )) {
-				if (strcmp ( $issue, "Syntax error" ) == 0) {
-					$attachmentUnknown = new SlackResultAttachment ();
-					$attachmentUnknown->setTitle ( "Unknown Issue:" );
-					$attachmentUnknown->setText ( $issue_id );
-					$attachments [] = $attachmentUnknown;
-					$log->debug ( "CmdShow: #$issueId issue unknown!" );
-				}
-			} else {
-				$log->debug ( "CmdShow: #$issueId issue found!" );
-				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue_id, $issue );
-				$attachments [] = $attachment;
-			}
+			$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue );
+			$attachments [] = $attachment;
 		}
+		
 		$result->setText ( $resultText );
 		
 		$result->setAttachmentsArray ( $attachments );
