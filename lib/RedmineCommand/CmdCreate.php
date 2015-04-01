@@ -89,7 +89,7 @@ class CmdCreate extends AbstractCommand {
 		foreach ($users['users'] as $user) {
 			$text .= "[". $user['login'] . "]  -  ". $user ['firstname'] ." ".$user['lastname']."\n";
 		}
-		$text = "Ussage:  create <project_id> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "Ussage:  create <project_id> <tracker_id> <assigned_to> <subject>\n";
 		return $text;
 	}
 }
