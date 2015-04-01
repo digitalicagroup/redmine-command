@@ -76,8 +76,21 @@ class CmdCreate extends AbstractCommand {
 		$text = "Ussage:\n create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
 		$text .= "PROJECTS [project_identifier]:\n";
 		$projects = $client->api('project')->all();
+		$projects_clean = array();
 		foreach ($projects['projects'] as $proj) {
-			$text .= $proj['identifier'] . "  |  "; 
+			$projects_clean[] = $proj['identifier']; 
+		}
+		asort($projects_clean);
+		$count = 0;
+		foreach ($projects_clean as $proj) {
+			$text .= $proj;
+			if ($count == 4) {
+				$text .= "\n";
+				$count = 0;
+			} else {
+				$text .= "  |  ";
+			}
+			$count++;
 		}
 		$text .= "TRACKERS [project_id]:\n";
 		$trackers = $client->api('tracker')->all();
