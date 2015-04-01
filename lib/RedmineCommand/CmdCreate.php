@@ -34,9 +34,6 @@ class CmdCreate extends AbstractCommand {
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
 		$client->setImpersonateUser ( $this->post ["user_name"] );
 		
-		$text = self::getHelperText ( $client );
-		print $text;
-		
 		if (empty ( $this->cmd ) || (count ( $this->cmd ) < 5)) {
 			print self::getHelperText ( $client );
 		} else {
