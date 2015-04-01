@@ -19,6 +19,7 @@ use SlackHookFramework\SlackResultAttachmentField;
 class CmdCreate extends AbstractCommand {
 	/**
 	 * Factory method to be implemented from \RedmineCommand\AbstractCommand .
+	 *
 	 * Must return an instance of \RedmineCommand\SlackResult .
 	 *
 	 * @see \RedmineCommand\AbstractCommand::executeImpl()
@@ -31,58 +32,57 @@ class CmdCreate extends AbstractCommand {
 		$log->debug ( "CmdCreate: Issues Id: " . implode ( ",", $this->cmd ) );
 		
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
-		$client->setImpersonateUser ($this->post ["user_name"]);
+		$client->setImpersonateUser ( $this->post ["user_name"] );
 		
-		$text = self::getHelperText($client);
+		$text = self::getHelperText ( $client );
 		print $text;
 		
-// 		$resultText = "[requested by " . $this->post ["user_name"] . "]";
-// 		if (empty ( $this->cmd )) {
-// 			$resultText .= " Ussage:  create ";
-// 		} else {
-// 			$resultText .= " New issue created: ";
-// 		}
-		
-// 		$attachments = array ();
-// 		$attachment = null;
-// 		$attachmentError = null;
-		
-		// creating issue
-// 		$issue = $client->api ( 'issue' )->create ( array (
-// 				'project_id' => 'testing',
-// 				'subject' => 'testing subject',
-// 				'description' => 'long description blablabla',
-// 				'assigned_to' => 'luis' 
-// 		) );
-		
-// 		if (! $issue instanceof SimpleXMLElement) {
-// 			$attachmentError = new SlackResultAttachment ();
-// 			$attachmentError->setTitle ( "Error creating issue" );
-// 			$attachmentError->setText ( "See log for details..." );
-// 			$attachments [] = $attachmentError;
-// 			$log->debug ( "CmdCreate: error creating issue!" );
-// 		} else {
-// 			$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue );
-// 			$attachments [] = $attachment;
-// 		}
-		
-// 		$result->setText ( $resultText );
-		
-// 		$result->setAttachmentsArray ( $attachments );
+		if (empty ( $this->cmd ) || (count ( $this->cmd ) < 5)) {
+			print self::getHelperText ( $client );
+		} else {
+			$resultText = "[requested by " . $this->post ["user_name"] . "]";
+			$resultText .= " New issue created: ";
+			
+			$attachments = array ();
+			$attachment = null;
+			$attachmentError = null;
+			
+			$issue = $client->api ( 'issue' )->create ( array (
+					'project_id' => $this->cmd [0],
+					'tracker_id' => ( int ) $this->cmd [1],
+					'assigned_to' => $this->cmd [2],
+					'subject' => implode ( " ", array_slice ( $this->cmd, 3, count ( $this->cmd ) - 3 ) ) 
+			) );
+			
+			if (! $issue instanceof SimpleXMLElement) {
+				$attachmentError = new SlackResultAttachment ();
+				$attachmentError->setTitle ( "Error creating issue" );
+				$attachmentError->setText ( "See log for details..." );
+				$attachments [] = $attachmentError;
+				$log->debug ( "CmdCreate: error creating issue!" );
+			} else {
+				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue );
+				$attachments [] = $attachment;
+			}
+			
+			$result->setText ( $resultText );
+			
+			$result->setAttachmentsArray ( $attachments );
+		}
 		return $result;
 	}
 	
-	protected function getHelperText ($client) {
-		$text = "Ussage:\n create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
-		$text .= "PROJECTS [project_identifier]:\n";
-		$projects = $client->api('project')->all();
-		$projects_clean = array();
-		foreach ($projects['projects'] as $proj) {
-			$projects_clean[] = $proj['identifier']; 
+	protected function getHelperText($client) {
+		$text = "Ussage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n\n";
+		$text .= " [ project_identifier ]:\n";
+		$projects = $client->api ( 'project' )->all ();
+		$projects_clean = array ();
+		foreach ( $projects ['projects'] as $proj ) {
+			$projects_clean [] = $proj ['identifier'];
 		}
-		asort($projects_clean);
+		asort ( $projects_clean );
 		$count = 0;
-		foreach ($projects_clean as $proj) {
+		foreach ( $projects_clean as $proj ) {
 			$text .= $proj;
 			if ($count == 4) {
 				$text .= "\n";
@@ -90,21 +90,21 @@ class CmdCreate extends AbstractCommand {
 			} else {
 				$text .= "     ";
 			}
-			$count++;
+			$count ++;
 		}
-		$text .= "\nTRACKERS [project_id]:\n";
-		$trackers = $client->api('tracker')->all();
-		foreach ($trackers['trackers'] as $track) {
-			$text .= $track['id'] . "   -   ". $track ['name'] ."\n";
+		$text .= "\n [ tracker_id ]:\n";
+		$trackers = $client->api ( 'tracker' )->all ();
+		foreach ( $trackers ['trackers'] as $track ) {
+			$text .= $track ['id'] . "   -   " . $track ['name'] . "\n";
 		}
-		$text .= "USERS [assigned_to]:\n";
-		$users = $client->api('user')->all();
-		$users_clean = array();
-		foreach ($users['users'] as $user) {
-			$users_clean[] = $user['login'];
+		$text .= " [ assigned_to ]:\n";
+		$users = $client->api ( 'user' )->all ();
+		$users_clean = array ();
+		foreach ( $users ['users'] as $user ) {
+			$users_clean [] = $user ['login'];
 		}
 		$count = 0;
-		foreach ($users_clean as $user) {
+		foreach ( $users_clean as $user ) {
 			$text .= $user;
 			if ($count == 4) {
 				$text .= "\n";
@@ -112,9 +112,9 @@ class CmdCreate extends AbstractCommand {
 			} else {
 				$text .= "     ";
 			}
-			$count++;
+			$count ++;
 		}
-		$text .= "\nUssage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "\n\nUssage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
 		return $text;
 	}
 }
