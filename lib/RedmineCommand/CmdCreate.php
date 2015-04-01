@@ -100,6 +100,7 @@ class CmdCreate extends AbstractCommand {
 		foreach ( $users ['users'] as $user ) {
 			$users_clean [] = $user ['login'];
 		}
+		asort ( $users_clean );
 		$count = 0;
 		foreach ( $users_clean as $user ) {
 			$text .= $user;
