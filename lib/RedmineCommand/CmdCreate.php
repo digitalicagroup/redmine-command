@@ -33,6 +33,9 @@ class CmdCreate extends AbstractCommand {
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
 		$client->setImpersonateUser ($this->post ["user_name"]);
 		
+		$text = self::getHelperText($client);
+		print $text;
+		
 // 		$resultText = "[requested by " . $this->post ["user_name"] . "]";
 // 		if (empty ( $this->cmd )) {
 // 			$resultText .= " Ussage:  create ";
@@ -70,18 +73,23 @@ class CmdCreate extends AbstractCommand {
 	}
 	
 	protected function getHelperText ($client) {
-		$text = "Ussage:\n create <project_id>"
-		$trackers = $client->api('tracker')->all();
+		$text = "Ussage:\n create <project_id> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "PROJECTS [project_id]:\n";
 		$projects = $client->api('project')->all();
+		foreach ($projects['projects'] as $proj) {
+			$text .= "[". $proj['id'] . "]  -  ". $proj ['name'] ."\n"; 
+		}
+		$text .= "TRACKERS [project_id]:\n";
+		$trackers = $client->api('tracker')->all();
+		foreach ($trackers['trackers'] as $track) {
+			$text .= "[". $track['id'] . "]  -  ". $track ['name'] ."\n";
+		}
+		$text .= "USERS [assigned_to]:\n";
 		$users = $client->api('user')->all();
-		
-		print_r($trackers);
-		print_r($projects);
-		print_r($users);
-		// get trackers
-		
-		// get project identifiers
-		
-		// get users
+		foreach ($users['users'] as $user) {
+			$text .= "[". $user['login'] . "]  -  ". $user ['firstname'] ." ".$user['lastname']."\n";
+		}
+		$text = "Ussage:  create <project_id> <tracker_id> <assigned_to> <subject>\n";
+		return $text;
 	}
 }
