@@ -88,21 +88,33 @@ class CmdCreate extends AbstractCommand {
 				$text .= "\n";
 				$count = 0;
 			} else {
-				$text .= "  |  ";
+				$text .= "     ";
 			}
 			$count++;
 		}
-		$text .= "TRACKERS [project_id]:\n";
+		$text .= "\nTRACKERS [project_id]:\n";
 		$trackers = $client->api('tracker')->all();
 		foreach ($trackers['trackers'] as $track) {
-			$text .= "[". $track['id'] . "]  -  ". $track ['name'] ."\n";
+			$text .= $track['id'] . "   -   ". $track ['name'] ."\n";
 		}
 		$text .= "USERS [assigned_to]:\n";
 		$users = $client->api('user')->all();
+		$users_clean = array();
 		foreach ($users['users'] as $user) {
-			$text .= "[". $user['login'] . "]  -  ". $user ['firstname'] ." ".$user['lastname']."\n";
+			$users_clean[] = $user['login'];
 		}
-		$text .= "Ussage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
+		$count = 0;
+		foreach ($users_clean as $user) {
+			$text .= $user;
+			if ($count == 4) {
+				$text .= "\n";
+				$count = 0;
+			} else {
+				$text .= "     ";
+			}
+			$count++;
+		}
+		$text .= "\nUssage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
 		return $text;
 	}
 }
