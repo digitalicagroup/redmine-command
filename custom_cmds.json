@@ -3,8 +3,8 @@
 		{
 			"trigger": "create",
 			"class": "RedmineCommand\\CmdCreate",
-			"help_title": "...",
-			"help_text": "Creates a new issue."
+			"help_title": "create",
+			"help_text": "Creates a new issue. Invoke it without arguments to get further help."
 		},
 		{
 			"trigger": "show",
