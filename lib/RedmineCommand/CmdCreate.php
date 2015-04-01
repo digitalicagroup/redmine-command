@@ -73,11 +73,11 @@ class CmdCreate extends AbstractCommand {
 	}
 	
 	protected function getHelperText ($client) {
-		$text = "Ussage:\n create <project_id> <tracker_id> <assigned_to> <subject>\n";
-		$text .= "PROJECTS [project_id]:\n";
+		$text = "Ussage:\n create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "PROJECTS [project_identifier]:\n";
 		$projects = $client->api('project')->all();
 		foreach ($projects['projects'] as $proj) {
-			$text .= "[". $proj['id'] . "]  -  ". $proj ['name'] ."\n"; 
+			$text .= $proj['identifier'] . "  |  "; 
 		}
 		$text .= "TRACKERS [project_id]:\n";
 		$trackers = $client->api('tracker')->all();
@@ -89,7 +89,7 @@ class CmdCreate extends AbstractCommand {
 		foreach ($users['users'] as $user) {
 			$text .= "[". $user['login'] . "]  -  ". $user ['firstname'] ." ".$user['lastname']."\n";
 		}
-		$text .= "Ussage:  create <project_id> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "Ussage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
 		return $text;
 	}
 }
