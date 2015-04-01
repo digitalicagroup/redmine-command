@@ -89,12 +89,12 @@ class CmdCreate extends AbstractCommand {
 			}
 			$count ++;
 		}
-		$text .= "\n [ tracker_id ]:\n";
+		$text .= "\n\n [ tracker_id ]:\n";
 		$trackers = $client->api ( 'tracker' )->all ();
 		foreach ( $trackers ['trackers'] as $track ) {
 			$text .= $track ['id'] . "   -   " . $track ['name'] . "\n";
 		}
-		$text .= " [ assigned_to ]:\n";
+		$text .= "\n [ assigned_to ]:\n";
 		$users = $client->api ( 'user' )->all ();
 		$users_clean = array ();
 		foreach ( $users ['users'] as $user ) {
