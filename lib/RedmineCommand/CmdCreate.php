@@ -112,6 +112,7 @@ class CmdCreate extends AbstractCommand {
 			$count ++;
 		}
 		$text .= "\n\nUssage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
+		$text .= "Example: create project-name 1 username this is the subject\n";
 		return $text;
 	}
 }
