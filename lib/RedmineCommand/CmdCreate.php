@@ -56,7 +56,7 @@ class CmdCreate extends AbstractCommand {
 				$attachmentError->setTitle ( "Error creating issue" );
 				$attachmentError->setText ( "See log for details..." );
 				$attachments [] = $attachmentError;
-				$log->debug ( "CmdCreate: error creating issue!" );
+				$log->debug ( "CmdCreate: error creating issue! log:".$issue );
 			} else {
 				$attachment = Utils::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issue );
 				$attachments [] = $attachment;
