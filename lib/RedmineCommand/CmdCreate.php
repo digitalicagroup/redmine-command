@@ -29,12 +29,12 @@ class CmdCreate extends AbstractCommand {
 		$log = $this->log;
 		$result = new SlackResult ();
 		
-		$log->debug ( "CmdCreate: Issues Id: " . implode ( ",", $this->cmd ) );
+		$log->debug ( "CmdCreate: Parameters: " . implode ( ",", $this->cmd ) );
 		
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
 		$client->setImpersonateUser ( $this->post ["user_name"] );
 		
-		if (empty ( $this->cmd ) || (count ( $this->cmd ) < 5)) {
+		if (empty ( $this->cmd ) || (count ( $this->cmd ) < 4)) {
 			print self::getHelperText ( $client );
 		} else {
 			$resultText = "[requested by " . $this->post ["user_name"] . "]";
@@ -113,7 +113,7 @@ class CmdCreate extends AbstractCommand {
 			$count ++;
 		}
 		$text .= "\n\nUssage:  create <project_identifier> <tracker_id> <assigned_to> <subject>\n";
-		$text .= "Example: create project-name 1 username this is the subject\n";
+		$text .= "Example: create myproject 1 username this is the subject\n";
 		return $text;
 	}
 }
