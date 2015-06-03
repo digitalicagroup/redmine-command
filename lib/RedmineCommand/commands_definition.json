@@ -4,7 +4,14 @@
 			"trigger": "show",
 			"class": "RedmineCommand\\CmdShow",
 			"help_title": "show <number1 number2 ...>",
-			"help_text": "Shows values for a list of issue numbers (space separated)."
+			"help_text": "Shows summaries for a list of issue numbers (space separated)."
+		},
+	"commands": [
+		{
+			"trigger": "details",
+			"class": "RedmineCommand\\CmdDetails",
+			"help_title": "details <number1 number2 ...>",
+			"help_text": "Shows details for a list of issue numbers (space separated)."
 		},
 		{
 			"trigger": "help",
