@@ -5,7 +5,7 @@ namespace RedmineCommand;
 use Redmine\Client;
 
 /**
- * Class to handle "show" commands.
+ * Class to handle "details" commands.
  * This command will receive an array of issue numbers, will
  * gather information from a redmine project, and store its
  * results on the in the internal result attribute of
@@ -17,7 +17,7 @@ use Redmine\Client;
  * @author Luis Augusto Peña Pereira <lpenap at gmail dot com>
  *        
  */
-class CmdShow extends AbstractCommand {
+class CmdDetails extends AbstractCommand {
 	/**
 	 * Factory method to be implemented from \RedmineCommand\AbstractCommand .
 	 *
@@ -31,7 +31,7 @@ class CmdShow extends AbstractCommand {
 		$log = $this->log;
 		$result = new SlackResult ();
 		
-		$log->debug ( "CmdShow: Issues Id: " . implode ( ",", $this->cmd ) );
+		$log->debug ( "CmdDetails: Issues Id: " . implode ( ",", $this->cmd ) );
 		
 		$client = new Client ( $this->config->redmine_url, $this->config->redmine_api_key );
 		
@@ -46,7 +46,7 @@ class CmdShow extends AbstractCommand {
 		$attachments = array ();
 		$attachmentUnknown = null;
 		foreach ( $this->cmd as $issueId ) {
-			$log->debug ( "CmdShow: calling Redmine api for issue id #$issueId" );
+			$log->debug ( "CmdDetails: calling Redmine api for issue id #$issueId" );
 			$issue = $client->api ( 'issue' )->show ( ( int ) $issueId );
 			$attachment = new SlackResultAttachment ();
 			if (! is_array ( $issue )) {
@@ -56,12 +56,12 @@ class CmdShow extends AbstractCommand {
 						$attachmentUnknown->setTitle ( "Unknown Issues:" );
 						$attachmentUnknown->setText ( "" );
 					}
-					$log->debug ( "CmdShow: #$issueId issue unknown!" );
+					$log->debug ( "CmdDetails: #$issueId issue unknown!" );
 					$attachmentUnknown->setText ( $attachmentUnknown->getText () . " $issueId" );
 				}
 			} else {
-				$log->debug ( "CmdShow: #$issueId issue found!" );
-				$attachment = Util::convertIssueToSummaryAttachment ( $this->config->getRedmineIssuesUrl (), $issueId, $issue );
+				$log->debug ( "CmdDetails: #$issueId issue found!" );
+				$attachment = Util::convertIssueToAttachment ( $this->config->getRedmineIssuesUrl (), $issueId, $issue );
 				$attachments [] = $attachment;
 			}
 		}
