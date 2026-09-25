@@ -1,3 +1,7 @@
+> [!WARNING]
+> ### 🛑 This Repository is Archived
+> This project has been **archived** and is now in a **read-only state**. It is no longer actively maintained, and we are not accepting issues or pull requests. 
+
 # Redmine Command
 
 A simple Redmine slack integration to manage issues.
